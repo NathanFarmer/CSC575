@@ -1,4 +1,4 @@
-# CSC575 Final Project
+# CSC 575 Final Project
 
 ### J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
 

@@ -1,2 +1,6 @@
 # CSC575
 CSC 575 Final Project
+
+The full dataset was too large to upload here. It can be downloaded using download_documents.py.
+
+On your local machine, the documents will be extracted to a folder called "data/". The .gitignore file tells git to ingore anything in that folder so it does not sync to this repository.

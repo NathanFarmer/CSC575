@@ -1,10 +1,8 @@
 # CSC575 Final Project
 
-J. Nathan Farmer
-
-Rohit Kothari
-
-Sachinder Katoch
+### J. Nathan Farmer
+### Rohit Kothari
+### Sachinder Katoch
 
 The full dataset was too large to upload here. It can be downloaded using download_documents.py.
 

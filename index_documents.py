@@ -13,7 +13,7 @@ def check_unique_document_ids():
     dir_name = os.path.dirname(abs_path)
     os.chdir(dir_name)
 
-    # Find out if all current document_ids are unique so we can use those
+    # Search for all .html file names
     file_list = []
     dir_name = dir_name + '\\data\\'
     for _, _, files in os.walk(dir_name):
@@ -21,6 +21,7 @@ def check_unique_document_ids():
             if f.endswith('.html'):
                 file_list.append(f)
     
+    # Check if those file names are all unique
     file_count = len(file_list)
     unique_file_count = len(set(file_list))
     print('File Count:', file_count)
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     for file_name in document_list:
         with open(data_dir + file_name) as f:
             text = f.read()
-            
+
     
     ps = PorterStemmer()
 

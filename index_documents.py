@@ -4,9 +4,21 @@
 
 import os
 import json
+from html.parser import HTMLParser
 
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
 
 def check_unique_document_ids():
     # Set working dir to location of this file
@@ -38,18 +50,22 @@ def check_unique_document_ids():
 def crawl_and_index(docs):
     ind = {}
 
-    for file_name in docs:
+    # ONLY INDEXING 50 DOCUMENTS FOR TEST
+    for file_name in docs[:50]:
         print('Indexing', file_name[1])
         with open(file_name[0] + '\\' + file_name[1]) as f:
             for line in f:
                 porters_words = []
                 ps = PorterStemmer()
-                for word in line.split():
+                s = MLStripper()
+                s.feed(line)
+                no_html_tags = s.get_data()
+                for word in no_html_tags.split():
                     # Stem the words using Porters Stemming
                     porters_words.append(ps.stem(word))
                 for pw in porters_words:
                     # Add the word to the dict if not there 
-                    ind[pw] = file_name[1][-5]
+                    ind[pw] = int(file_name[1][:-5])
 
     return ind
 
@@ -60,6 +76,11 @@ if __name__ == '__main__':
     # Crawl the documents and add each term to the inverted index
     index = crawl_and_index(document_list)
 
+    # Set working dir to location of this file again
+    abs_path = os.path.abspath(__file__)
+    dir_name = os.path.dirname(abs_path)
+    os.chdir(dir_name)
+
     # Dump the index to a json file
-    with open('index.json', 'w') as f:
+    with open('data/index.json', 'w') as f:
         json.dump(index, f)

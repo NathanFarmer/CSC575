@@ -16,10 +16,10 @@ def check_unique_document_ids():
     # Search for all .html file names
     file_list = []
     dir_name = dir_name + '\\data\\'
-    for _, dirs, files in os.walk(dir_name):
+    for root, _, files in os.walk(dir_name):
         for f in files:
             if f.endswith('.html'):
-                file_list.append([dirs, f])
+                file_list.append([root, f])
     
     # Check if those file names are all unique
     just_files = []
@@ -32,13 +32,14 @@ def check_unique_document_ids():
     if file_count == unique_file_count: print('All file names are unique! The file names will become our document_ids.')
     else: print('Something went wrong when you downloaded the documents. You seem to have duplicate document names. Please delete the "data" directory and run download_documents.py again.')
 
-    return dir_name, file_list
+    return file_list
 
-def crawl_and_index(docs, dd):
+def crawl_and_index(docs):
     ind = {}
 
     for file_name in docs:
-        with open(dd + file_name) as f:
+        print('Indexing', file_name[0])
+        with open(file_name[0] + '\\' + file_name[1]) as f:
             for line in f:
                 porters_words = []
                 ps = PorterStemmer()
@@ -47,13 +48,13 @@ def crawl_and_index(docs, dd):
                     porters_words.append(ps.stem(word))
                 for pw in porters_words:
                     # Add the word to the dict if not there 
-                    ind[pw] = int(file_name[-5])
+                    ind[pw] = file_name[1][-5]
 
     return ind
 
 if __name__ == '__main__':
     # Make sure all documents names are unique to be used for document_ids
-    data_dir, document_list = check_unique_document_ids()
+    document_list = check_unique_document_ids()
 
     # Crawl the documents and add each term to the inverted index
-    index = crawl_and_index(document_list, data_dir)
+    index = crawl_and_index(document_list)

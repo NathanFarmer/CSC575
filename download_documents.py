@@ -10,6 +10,7 @@ import io, os, zipfile
 
 
 def download_document(url, file_name):
+    # Progress based on block size
     resp = urllib.request.urlopen(url + file_name)
     length = resp.getheader('content-length')
     if length:
@@ -21,6 +22,7 @@ def download_document(url, file_name):
     buf = io.BytesIO()
     size = 0
 
+    # Download the file
     while True:
         buf1 = resp.read(blocksize)
         if not buf1:
@@ -32,10 +34,12 @@ def download_document(url, file_name):
             print(prog_str, end='')
     print()
 
+    # Write the file to local
     with open(file_name, 'wb') as out_file:
         out_file.write(buf.getvalue())
 
 def unzip_document(file_name):
+    # Unzip this file
     file = dir_name + file_name
 
     with zipfile.ZipFile(file, 'r') as zip_ref:

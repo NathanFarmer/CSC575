@@ -20,7 +20,7 @@ def check_unique_document_ids():
         for f in files:
             if f.endswith('.html'):
                 file_list.append(f)
-    
+
     # Check if those file names are all unique
     file_count = len(file_list)
     unique_file_count = len(set(file_list))
@@ -35,9 +35,7 @@ def crawl_and_index(docs, dd):
     for file_name in docs:
         with open(dd + file_name) as f:
             for line in f:
-                
-
-    ps = PorterStemmer()
+                ps = PorterStemmer()
 
     return None
 
@@ -47,4 +45,3 @@ if __name__ == '__main__':
 
     # Crawl the documents and add each term to the inverted index
     index = crawl_and_index(document_list, data_dir)
-

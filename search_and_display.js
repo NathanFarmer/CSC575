@@ -6,7 +6,17 @@
 
 // Pass the query that was entered to retrieve_documents.py
 function searchQuery(ev) {
-
+    var request = { ... };
+    jQuery.ajax({
+        url: 'http://localhost/retrieve_documents.py',
+        type: 'POST',
+        cache: false,
+        data: JSON.stringify(request),
+        contentType: 'application/json',
+        processData: false,
+        success: on_request_success,
+        error: on_request_error
+    });
 };
 
 // Prevent the press of enter in the search box from refreshing the page
@@ -19,29 +29,15 @@ function enterSubmit(ev) {
     };
 };
 
+// Error handling for AJAX request
+function on_request_success(response) {
+    console.debug('response', response);
+};
+
+function on_request_error(r, text_status, error_thrown) {
+    console.debug('error', text_status + ", " + error_thrown + ":\n" + r.responseText);
+};
 
 // Wait for a keypress in the search box
 const el1 = document.getElementById('search');
 el1.addEventListener('keydown', enterSubmit);
-
-
-// COPIED FROM STACK OVERFLOW FOR PASSING DATA TO PYTHON
-function on_request_success(response) {
-    console.debug('response', response);
-} 
-
-function on_request_error(r, text_status, error_thrown) {
-    console.debug('error', text_status + ", " + error_thrown + ":\n" + r.responseText);
-}
-
-var request = { ... };
-jQuery.ajax({
-    url: 'http://host/whatever.cgi',
-    type: 'POST',
-    cache: false,
-    data: JSON.stringify(request),
-    contentType: 'application/json',
-    processData: false,
-    success: on_request_success,
-    error: on_request_error
-});

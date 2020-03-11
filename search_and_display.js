@@ -8,7 +8,7 @@
 function searchQuery(ev) {
     var request = document.getElementById('search').value;
     jQuery.ajax({
-        url: 'http://localhost/retrieve_documents.py',
+        url: 'http://localhost:8000/retrieve_documents.py',
         type: 'POST',
         cache: false,
         data: JSON.stringify(request),

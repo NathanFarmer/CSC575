@@ -23,3 +23,25 @@ function enterSubmit(ev) {
 // Wait for a keypress in the search box
 const el1 = document.getElementById('search');
 el1.addEventListener('keydown', enterSubmit);
+
+
+// COPIED FROM STACK OVERFLOW FOR PASSING DATA TO PYTHON
+function on_request_success(response) {
+    console.debug('response', response);
+} 
+
+function on_request_error(r, text_status, error_thrown) {
+    console.debug('error', text_status + ", " + error_thrown + ":\n" + r.responseText);
+}
+
+var request = { ... };
+jQuery.ajax({
+    url: 'http://host/whatever.cgi',
+    type: 'POST',
+    cache: false,
+    data: JSON.stringify(request),
+    contentType: 'application/json',
+    processData: false,
+    success: on_request_success,
+    error: on_request_error
+});

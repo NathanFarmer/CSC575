@@ -1,3 +1,8 @@
+# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+#
+# Step 1: Run this file to download the HTML documents to the directory where this file is located.
+#         This will take at least 30 minutes
+
 from bs4 import BeautifulSoup
 import requests
 import urllib.request

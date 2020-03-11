@@ -38,7 +38,7 @@ def crawl_and_index(docs):
     ind = {}
 
     for file_name in docs:
-        print('Indexing', file_name[0])
+        print('Indexing', file_name[1])
         with open(file_name[0] + '\\' + file_name[1]) as f:
             for line in f:
                 porters_words = []

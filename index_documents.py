@@ -19,13 +19,8 @@ def check_unique_document_ids():
     for _, dirs, files in os.walk(dir_name):
         for f in files:
             if f.endswith('.html'):
-<<<<<<< HEAD
                 file_list.append([dirs, f])
     
-=======
-                file_list.append(f)
-
->>>>>>> 4898bf934e9deac1b5cb129ba6c82a08c21bbae6
     # Check if those file names are all unique
     just_files = []
     for tup in file_list:

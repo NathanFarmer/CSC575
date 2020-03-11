@@ -6,7 +6,7 @@
 
 // Pass the query that was entered to retrieve_documents.py
 function searchQuery(ev) {
-    var request = { ... };
+    var request = document.getElementById('search').value;
     jQuery.ajax({
         url: 'http://localhost/retrieve_documents.py',
         type: 'POST',

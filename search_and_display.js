@@ -5,7 +5,7 @@
 
 
 // Pass the query that was entered to retrieve_documents.py
-function searchShipment(ev) {
+function searchQuery(ev) {
 
 };
 

@@ -6,9 +6,7 @@
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
-import io
-import os
-import zipfile
+import io, os, zipfile
 
 
 def download_document(url, file_name):

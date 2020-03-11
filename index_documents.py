@@ -16,14 +16,17 @@ def check_unique_document_ids():
     # Search for all .html file names
     file_list = []
     dir_name = dir_name + '\\data\\'
-    for _, _, files in os.walk(dir_name):
+    for _, dirs, files in os.walk(dir_name):
         for f in files:
             if f.endswith('.html'):
-                file_list.append(f)
+                file_list.append([dirs, f])
     
     # Check if those file names are all unique
-    file_count = len(file_list)
-    unique_file_count = len(set(file_list))
+    just_files = []
+    for tup in file_list:
+        just_files.append(tup[1])
+    file_count = len(just_files)
+    unique_file_count = len(set(just_files))
     print('File Count:', file_count)
     print('Unique File Name Count:', unique_file_count)
     if file_count == unique_file_count: print('All file names are unique! The file names will become our document_ids.')
@@ -32,14 +35,21 @@ def check_unique_document_ids():
     return dir_name, file_list
 
 def crawl_and_index(docs, dd):
+    ind = {}
+
     for file_name in docs:
         with open(dd + file_name) as f:
             for line in f:
-                
+                porters_words = []
+                ps = PorterStemmer()
+                for word in line.split():
+                    # Stem the words using Porters Stemming
+                    porters_words.append(ps.stem(word))
+                for pw in porters_words:
+                    # Add the word to the dict if not there 
+                    ind[pw] = int(file_name[-5])
 
-    ps = PorterStemmer()
-
-    return None
+    return ind
 
 if __name__ == '__main__':
     # Make sure all documents names are unique to be used for document_ids
@@ -48,3 +58,4 @@ if __name__ == '__main__':
     # Crawl the documents and add each term to the inverted index
     index = crawl_and_index(document_list, data_dir)
 
+    print(index)

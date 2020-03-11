@@ -71,5 +71,5 @@ if __name__ == '__main__':
     # Delete extracted zip files
     list_dir = os.listdir(dir_name)
     for item in list_dir:
-        if item.endswith(".zip"):
+        if item.endswith('.zip'):
             os.remove(os.path.join(dir_name, item))

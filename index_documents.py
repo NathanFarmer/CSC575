@@ -10,6 +10,7 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 class MLStripper(HTMLParser):
+    # Class to strip markup language from a given string
     def __init__(self):
         self.reset()
         self.strict = False
@@ -49,7 +50,6 @@ def check_unique_document_ids():
 
 def crawl_and_index(docs):
     ind = {}
-
     # ONLY INDEXING 50 DOCUMENTS FOR TEST
     for file_name in docs[:50]:
         print('Indexing', file_name[1])

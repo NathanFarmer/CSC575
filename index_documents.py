@@ -31,15 +31,20 @@ def check_unique_document_ids():
 
     return dir_name, file_list
 
+def crawl_and_index(docs, dd):
+    for file_name in docs:
+        with open(dd + file_name) as f:
+            for line in f:
+                
+
+    ps = PorterStemmer()
+
+    return None
+
 if __name__ == '__main__':
     # Make sure all documents names are unique to be used for document_ids
     data_dir, document_list = check_unique_document_ids()
 
     # Crawl the documents and add each term to the inverted index
-    for file_name in document_list:
-        with open(data_dir + file_name) as f:
-            text = f.read()
-
-    
-    ps = PorterStemmer()
+    index = crawl_and_index(document_list, data_dir)
 

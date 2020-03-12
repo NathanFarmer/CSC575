@@ -1,12 +1,16 @@
+# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+#
+# Step 1: Run this file to download the HTML documents to the directory where this file is located.
+#         This will take at least 30 minutes.
+
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
-import io
-import os
-import zipfile
+import io, os, zipfile
 
 
 def download_document(url, file_name):
+    # Progress based on block size
     resp = urllib.request.urlopen(url + file_name)
     length = resp.getheader('content-length')
     if length:
@@ -18,6 +22,7 @@ def download_document(url, file_name):
     buf = io.BytesIO()
     size = 0
 
+    # Download the file
     while True:
         buf1 = resp.read(blocksize)
         if not buf1:
@@ -29,10 +34,12 @@ def download_document(url, file_name):
             print(prog_str, end='')
     print()
 
+    # Write the file to local
     with open(file_name, 'wb') as out_file:
         out_file.write(buf.getvalue())
 
 def unzip_document(file_name):
+    # Unzip this file
     file = dir_name + file_name
 
     with zipfile.ZipFile(file, 'r') as zip_ref:
@@ -68,5 +75,5 @@ if __name__ == '__main__':
     # Delete extracted zip files
     list_dir = os.listdir(dir_name)
     for item in list_dir:
-        if item.endswith(".zip"):
+        if item.endswith('.zip'):
             os.remove(os.path.join(dir_name, item))

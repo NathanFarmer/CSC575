@@ -7,12 +7,13 @@
 // Pass the query that was entered to retrieve_documents.py
 function searchQuery(ev) {
     var request = document.getElementById('search').value;
+    console.log(request)
     jQuery.ajax({
-        url: 'http://localhost:8000/retrieve_documents.py',
+        url: '/launch_ui.py',
         type: 'POST',
         cache: false,
-        data: JSON.stringify(request),
-        contentType: 'application/json',
+        data: {query: request},
+        contentType: 'text/plain',
         processData: false,
         success: on_request_success,
         error: on_request_error

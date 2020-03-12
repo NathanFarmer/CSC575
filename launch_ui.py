@@ -1,12 +1,17 @@
+# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+#
+# This file launches the web server and receives POST requests from search_and_display.js.
+
 import socketserver
 import http.server
 import logging
 import cgi
+import json
+import sys
 
 PORT = 8000
 
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
-
     def do_GET(self):
         logging.error(self.headers)
         http.server.SimpleHTTPRequestHandler.do_GET(self)
@@ -17,19 +22,19 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
             fp=self.rfile,
             headers=self.headers,
             environ={'REQUEST_METHOD':'POST',
-                     'CONTENT_TYPE':self.headers['Content-Type'],
-                     })
+                     'CONTENT_TYPE':'text/plain'})
+        print(form.getvalue('query'))
         for item in form.list:
             logging.error(item)
         http.server.SimpleHTTPRequestHandler.do_GET(self)
 
-        with open("data.txt", "w") as file:
-            for key in form.keys(): 
-                file.write(str(form.getvalue(str(key))) + ",")
+def euclidean_distance(query):
+    return query
 
-Handler = ServerHandler
+if __name__ == '__main__':
+    Handler = ServerHandler
 
-httpd = socketserver.TCPServer(("", PORT), Handler)
+    httpd = socketserver.TCPServer(("", PORT), Handler)
 
-print("serving at port", PORT)
-httpd.serve_forever()
+    print("Serving at port:", PORT)
+    httpd.serve_forever()

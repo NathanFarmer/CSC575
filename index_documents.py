@@ -53,7 +53,7 @@ def check_unique_document_ids():
 def crawl_and_index(docs):
     ind = {}
     # ONLY INDEXING 50 DOCUMENTS FOR TEST
-    for file_name in docs[:1]:
+    for file_name in docs[:50]:
         print('Indexing', file_name[1])
         #print(file_name)
         porters_words = []

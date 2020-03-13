@@ -3,6 +3,7 @@
 // Takes search query as input and feeds it to ir_project.py. Retrieived documents are then
 // returned to this file for display in the browser.
 
+// AJAX sends query and waits for response
 $(function() {
     $('a#process_input').bind('click', function() {
         $.getJSON('/get_query', {

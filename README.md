@@ -11,4 +11,4 @@ The full dataset was too large to upload here. It should be downloaded by runnin
 Once the documents are downloaded, we need to build the inverted index. This is done by running index_documents.py. The script will crawl through each of the previously extracted documents and dump the indexed results to a file called index.json in the data folder.
 
 ### Step 3: Open the UI.
-Once the index is built, you can open the UI in your browser by running "Search Engine UI.exe". This will launch Mongoose web server and open your broswer to index.html. Once you are finished using the UI, you will want to close Mongoose or else it will allow a new instance to run on your machine every time you open it. Mongoose stays open as a "hidden icon" on Windows machines. Right click the blue diamond icon and select exit to close the web server.
+Once the index is built, you can launch the web server by running ir_project.py. Once the web server is running, open the browser of your choice and point to localhost:5000.

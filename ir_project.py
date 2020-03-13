@@ -1,3 +1,7 @@
+# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+#
+# Step 3: Run this file to launch the web server and point your browser to localhost:5000.
+
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)

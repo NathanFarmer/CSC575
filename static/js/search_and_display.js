@@ -8,7 +8,7 @@ $(function() {
         $.getJSON('/get_query', {
             query: $('input[name="query"]').val(),
         }, function(data) {
-            $("#result").text(data.query);
+            $("#result").text(data.result);
         });
         return false;
     });

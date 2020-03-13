@@ -8,6 +8,8 @@ from html.parser import HTMLParser
 
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
+from bs4 import BeautifulSoup
+import string
 
 class MLStripper(HTMLParser):
     # Class to strip markup language from a given string
@@ -23,7 +25,7 @@ class MLStripper(HTMLParser):
 
 def check_unique_document_ids():
     # Set working dir to location of this file
-    abs_path = os.path.abspath(__file__)
+    abs_path = os.path.abspath('C:\\DePaul\\data\\')
     dir_name = os.path.dirname(abs_path)
     os.chdir(dir_name)
 
@@ -53,20 +55,24 @@ def crawl_and_index(docs):
     # ONLY INDEXING 50 DOCUMENTS FOR TEST
     for file_name in docs[:50]:
         print('Indexing', file_name[1])
+        #print(file_name)
+        porters_words = []
         with open(file_name[0] + '\\' + file_name[1]) as f:
             for line in f:
-                porters_words = []
+                no_html_tags = BeautifulSoup(line, "lxml").text
+                no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
+                
                 ps = PorterStemmer()
-                s = MLStripper()
-                s.feed(line)
-                no_html_tags = s.get_data()
+                #s = MLStripper()
+                #s.feed(line)
+                #no_html_tags = s.get_data()
+                
                 for word in no_html_tags.split():
                     # Stem the words using Porters Stemming
                     porters_words.append(ps.stem(word))
                 for pw in porters_words:
                     # Add the word to the dict if not there 
                     ind[pw] = int(file_name[1][:-5])
-
     return ind
 
 if __name__ == '__main__':

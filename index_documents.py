@@ -25,7 +25,9 @@ class MLStripper(HTMLParser):
 
 def check_unique_document_ids():
     # Set working dir to location of this file
-    abs_path = os.path.abspath('C:\\DePaul\\data\\')
+    #abs_path = os.path.abspath('C:\\DePaul\\data\\')
+    abs_path = os.path.abspath(__file__)
+
     dir_name = os.path.dirname(abs_path)
     os.chdir(dir_name)
 

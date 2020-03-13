@@ -6,6 +6,11 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
+def retrieve_documents(q):
+    if q:
+        return ['data/ajepidem/10901322.html', 'data/ajepidem/10901323.html']
+
+
 @app.route('/')
 def index():
     try:
@@ -17,8 +22,9 @@ def index():
 def get_query():
     try:
         query = request.args.get('query')
-        res_str = 'The query is: ' + query
-        return jsonify(result=res_str)
+        # Retrieve documents using function
+        rel_docs = retrieve_documents(query)
+        return jsonify(result=rel_docs)
     except Exception as e:
         return(str(e))
 

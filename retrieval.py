@@ -7,6 +7,7 @@ def retrieve_documents(q):
 
 def load_relevance():
     # Loads the predefined relevance information
+    
     return None
 
 def load_index():
@@ -16,7 +17,7 @@ def load_index():
     return idx
 
 if __name__ == 'retrieval' or __name__ == '__main__':
-    # Weather we are running this file as a standalone or importing it
+    # Whether we are running this file as a standalone or importing it
     # from somewhere else we still want to go ahead and load the index
     index = load_index()
     relevance = load_relevance()

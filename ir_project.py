@@ -3,7 +3,7 @@
 # Step 3: Run this file to launch the web server and point your browser to localhost:5000.
 
 from flask import Flask, render_template, request, jsonify, send_from_directory
-from retrieval import retrieve_documents, load_index
+from retrieval import retrieve_documents
 
 app = Flask(__name__, static_url_path='')
 

@@ -78,6 +78,12 @@ if __name__ == '__main__':
     url = 'https://dmice.ohsu.edu/trec-gen/data/2007/2007topics.txt'
     urllib.request.urlretrieve(url, '2007topics.txt')
 
+    url = 'https://dmice.ohsu.edu/trec-gen/data/2007/trecgen2007.gold.standard.tsv.txt'
+    urllib.request.urlretrieve(url, 'trecgen2007.gold.standard.tsv.txt')
+
+    url = 'https://dmice.ohsu.edu/trec-gen/data/2007/trecgen2007.all.judgments.tsv.txt'
+    urllib.request.urlretrieve(url, 'trecgen2007.all.judgments.tsv.txt')
+
     # Delete extracted zip files
     list_dir = os.listdir(dir_name)
     for item in list_dir:

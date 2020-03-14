@@ -6,10 +6,13 @@
 // AJAX sends query and waits for response
 $(function() {
     $('a#process_input').bind('click', function() {
+        $("#result").empty();
         $.getJSON('/get_query', {
             query: $('input[name="query"]').val(),
         }, function(data) {
-            $("#result").text(data.result);
+            $.each(data.result, function(index, value) {
+                $("#result").append("<li><a href='" + value + "'>Document " + index + "</a></li>");
+              });
         });
         return false;
     });

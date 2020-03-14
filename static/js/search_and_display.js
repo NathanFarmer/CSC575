@@ -10,8 +10,10 @@ $(function() {
         $.getJSON('/get_query', {
             query: $('input[name="query"]').val(),
         }, function(data) {
-            $.each(data.result, function(index, value) {
-                $("#result").append(`<tr><th scope='row'>${index}</th><td><a href='${value}'>${value}</td><td></td><td></td><td></td></tr>`);
+            var i = 1;
+            $.each(data.result, function(document, link) {
+                $("#result").append(`<tr><th scope='row'>` + i + `</th><td><a href='${link}'>${document}</td><td></td><td></td><td></td></tr>`);
+                i++;
               });
         });
         return false;

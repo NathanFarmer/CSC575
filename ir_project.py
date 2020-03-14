@@ -28,7 +28,5 @@ def get_query():
 def send_html(path):
     return send_from_directory('data', path)
 
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-    index = load_index()

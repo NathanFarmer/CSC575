@@ -28,7 +28,7 @@ def get_query():
         return(str(e))
 
 @app.route('/data/<path:path>')
-def send_js(path):
+def send_html(path):
     return send_from_directory('data', path)
 
 

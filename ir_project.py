@@ -3,12 +3,9 @@
 # Step 3: Run this file to launch the web server and point your browser to localhost:5000.
 
 from flask import Flask, render_template, request, jsonify, send_from_directory
+from retrieval import retrieve_documents, load_index
 
 app = Flask(__name__, static_url_path='')
-
-def retrieve_documents(q):
-    if q:
-        return {1:'data/ajepidem/10901322.html', 2:'data/ajepidem/10901323.html'}
 
 @app.route('/')
 def index():
@@ -34,3 +31,4 @@ def send_html(path):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+    index = load_index()

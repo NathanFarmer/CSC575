@@ -11,7 +11,7 @@ $(function() {
             query: $('input[name="query"]').val(),
         }, function(data) {
             $.each(data.result, function(index, value) {
-                $("#result").append("<tr><th scope='row'>" + index + "</th><td><a href='" + value + "'>" + value + "</td><td></td><td></td><td></td></tr>");
+                $("#result").append(`<tr><th scope='row'>${index}</th><td><a href='${value}'>${value}</td><td></td><td></td><td></td></tr>`);
               });
         });
         return false;

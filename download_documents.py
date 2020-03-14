@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     # Create data folder and change working dir to there
     dir_name = dir_name + '\\data\\'
-    os.mkdir('data')
+    #os.mkdir('data')
     os.chdir('data')
 
     # Identify, download, and unzip corpus files
@@ -64,13 +64,19 @@ if __name__ == '__main__':
 
     print('Downloading and unzipping files:')
 
-    for link in soup.findAll('a', href=True):
-        url = link['href']
-        if url.endswith('.zip'):
-            download_document(page, url)
-            unzip_document(url)
-        elif url.endswith('.txt'):
-            download_document(page, url)
+    #for link in soup.findAll('a', href=True):
+    #    url = link['href']
+    #    if url.endswith('.zip'):
+    #        download_document(page, url)
+    #        unzip_document(url)
+    #    elif url.endswith('.txt'):
+    #        download_document(page, url)
+
+    url = 'https://trec.nist.gov/data/genomics/07/trecgen2007-qrels.txt'
+    urllib.request.urlretrieve(url, 'trecgen2007-qrels.txt')
+
+    url = 'https://dmice.ohsu.edu/trec-gen/data/2007/2007topics.txt'
+    urllib.request.urlretrieve(url, '2007topics.txt')
 
     # Delete extracted zip files
     list_dir = os.listdir(dir_name)

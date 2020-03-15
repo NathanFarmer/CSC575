@@ -12,10 +12,8 @@ $(function() {
             query: $('input[name="query"]').val(),
         }, function(data) {
             $("#topic").html('<b>Selected Topic:</b> ' + data.result.topic);
-            var i = 1;
-            $.each(data.result.docs, function(document, info) {
-                $("#result").append(`<tr><th scope='row'>` + i + `</th><td><a href='${info.link}'>${document}</td><td>${info.relevance}</td><td></td><td></td></tr>`);
-                i++;
+            $.each(data.result.docs, function(rank, info) {
+                $("#result").append(`<tr><th scope='row'>${rank}</th><td><a href='${info.link}'>${info.document_id}</td><td>${info.relevance}</td><td></td><td></td></tr>`);
               });
         });
         return false;

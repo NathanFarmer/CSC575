@@ -10,9 +10,9 @@ def retrieve_documents(q):
     if q:
         topic = topics['QUERY'][topics['TOPICID']==200].iloc[0]
 
-    return {'topic':topic, 'docs':{1:{'document_id':14747618,'link':'data/rheumatolgy/14747618.html','relevance':'Relevant'}, 
-                                   2:{'document_id':10662869,'link':'data/rheumatolgy/10662869.html','relevance':'Relevant'}, 
-                                   3:{'document_id':10901322,'link':'data/ajepidem/10901322.html','relevance':'Not Relevant'}}}
+    return {'topic':topic, 'docs':{1:{'document_id':14747618,'link':'data/rheumatolgy/14747618.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
+                                   2:{'document_id':10662869,'link':'data/rheumatolgy/10662869.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
+                                   3:{'document_id':10901322,'link':'data/ajepidem/10901322.html','relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}}}
 
 def load_topics():
     # Loads the predefined topics file

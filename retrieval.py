@@ -17,6 +17,7 @@ def load_relevance():
     gold_standard = pd.read_csv('data/trecgen2007.gold.standard.tsv.txt', sep="\t", header=None, encoding='ISO-8859-1')
     gs_columns = ['TOPICID', 'PUBMEDID', 'OFFSET', 'LENGTH', 'MESH_ASPECTS']
     gold_standard.columns = gs_columns
+    gold_standard['MESH_ASPECTS'] = gold_standard['MESH_ASPECTS'].str.split('|')
     print(gold_standard.head())
 
     # Topics file

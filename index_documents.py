@@ -4,6 +4,7 @@
 
 import os
 import json
+import re
 from html.parser import HTMLParser
 
 from nltk.stem import PorterStemmer
@@ -62,27 +63,28 @@ def crawl_and_index(docs):
             for line in f:
                 no_html_tags = BeautifulSoup(line, 'lxml').text
                 no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
-                
+
                 ps = PorterStemmer()
-                #s = MLStripper()
-                #s.feed(line)
-                #no_html_tags = s.get_data()
-                
-                for word in no_html_tags.split():
+                # Split on special characters and numbers
+                all_words = re.split(' |,|/|-|\n|\u0096|\u0097|\u00a0|\u00fc', no_html_tags)
+                for word in all_words:
+                    # Remove numbers
+                    word = re.sub(r'[0-9]+', '', word)
                     # Stem the words using Porters Stemming
                     porters_words.append(ps.stem(word))
 
                 for pw in porters_words:
-                    if pw not in ind:
-                        # Add the word to the dict if not there 
-                        ind[pw] = {doc_id:1}
-                    elif doc_id not in ind[pw]:
-                        # If the word is in the dict but the doc_id is not
-                        ind[pw] = {doc_id:1}
-                    else:
-                        # If the word is in the dict and so is the doc_id                        
-                        freq = ind[pw][doc_id] + 1
-                        ind[pw] = {doc_id:freq}
+                    if len(pw) > 0:
+                        if pw not in ind:
+                            # Add the word to the dict if not there 
+                            ind[pw] = {doc_id:1}
+                        elif doc_id not in ind[pw]:
+                            # If the word is in the dict but the doc_id is not
+                            ind[pw] = {doc_id:1}
+                        else:
+                            # If the word is in the dict and so is the doc_id                        
+                            freq = ind[pw][doc_id] + 1
+                            ind[pw] = {doc_id:freq}
 
                     if pw == 'john': print(pw, ind[pw])
 

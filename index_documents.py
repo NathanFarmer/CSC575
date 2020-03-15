@@ -2,11 +2,7 @@
 #
 # Step 2: Run this file to create the document index on your local machine.
 
-import os
-import json
-import re
-from html.parser import HTMLParser
-
+import os, json, re
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from bs4 import BeautifulSoup

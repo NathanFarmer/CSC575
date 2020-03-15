@@ -10,25 +10,26 @@ def retrieve_documents(q):
     if q:
         return {10901322:'data/ajepidem/10901322.html', 10901323:'data/ajepidem/10901323.html'}
 
-def load_relevance():
-    # Loads the predefined relevance information
-
-    # Gold standard file
-    gold_standard = pd.read_csv('data/trecgen2007.gold.standard.tsv.txt', sep="\t", header=None, encoding='ISO-8859-1')
-    gs_columns = ['TOPICID', 'PUBMEDID', 'OFFSET', 'LENGTH', 'MESH_ASPECTS']
-    gold_standard.columns = gs_columns
-    gold_standard['MESH_ASPECTS'] = gold_standard['MESH_ASPECTS'].str.split('|')
-    print(gold_standard.head())
-
-    # Topics file
-    topics = gold_standard = pd.read_csv('data/2007topics.txt', sep=">", header=None, encoding='ISO-8859-1')
+def load_topics():
+    # Loads the predefined topics file
+    topics = pd.read_csv('data/2007topics.txt', sep=">", header=None, encoding='ISO-8859-1')
     topics_columns = ['TOPICID', 'QUERY']
     topics.columns = topics_columns
     # Get rid of opening <
     topics['TOPICID'] = pd.to_numeric(topics['TOPICID'].str[1:])
     print(topics.head())
 
-    return None
+    return topics
+
+def load_gold_standard():
+    # Loads the predefined gold standard file
+    gold_standard = pd.read_csv('data/trecgen2007.gold.standard.tsv.txt', sep="\t", header=None, encoding='ISO-8859-1')
+    gs_columns = ['TOPICID', 'PUBMEDID', 'OFFSET', 'LENGTH', 'MESH_ASPECTS']
+    gold_standard.columns = gs_columns
+    gold_standard['MESH_ASPECTS'] = gold_standard['MESH_ASPECTS'].str.split('|')
+    print(gold_standard.head())
+
+    return gold_standard
 
 def load_index():
     # This function loads the index from index.json
@@ -41,7 +42,8 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     # from somewhere else we still want to go ahead and load the index
     # and relevance judgements
     index = load_index()
-    relevance = load_relevance()
+    topics = load_topics()
+    gold_standard = load_gold_standard()
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for

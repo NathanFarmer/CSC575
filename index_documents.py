@@ -53,13 +53,14 @@ def check_unique_document_ids():
 def crawl_and_index(docs):
     ind = {}
     # ONLY INDEXING 50 DOCUMENTS FOR TEST
-    for file_name in docs[:50]:
+    for file_name in docs[:1]:
         print('Indexing', file_name[1])
         #print(file_name)
         porters_words = []
         with open(file_name[0] + '\\' + file_name[1]) as f:
+            doc_id = int(file_name[1][:-5])
             for line in f:
-                no_html_tags = BeautifulSoup(line, "lxml").text
+                no_html_tags = BeautifulSoup(line, 'lxml').text
                 no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
                 
                 ps = PorterStemmer()
@@ -70,9 +71,21 @@ def crawl_and_index(docs):
                 for word in no_html_tags.split():
                     # Stem the words using Porters Stemming
                     porters_words.append(ps.stem(word))
+
                 for pw in porters_words:
-                    # Add the word to the dict if not there 
-                    ind[pw] = int(file_name[1][:-5])
+                    if pw not in ind:
+                        # Add the word to the dict if not there 
+                        ind[pw] = {doc_id:1}
+                    elif doc_id not in ind[pw]:
+                        # If the word is in the dict but the doc_id is not
+                        ind[pw] = {doc_id:1}
+                    else:
+                        # If the word is in the dict and so is the doc_id                        
+                        freq = ind[pw][doc_id] + 1
+                        ind[pw] = {doc_id:freq}
+
+                    if pw == 'john': print(pw, ind[pw])
+
     return ind
 
 if __name__ == '__main__':

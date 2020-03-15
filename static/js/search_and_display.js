@@ -13,8 +13,8 @@ $(function() {
         }, function(data) {
             $("#topic").html('<b>Selected Topic:</b> ' + data.result.topic);
             var i = 1;
-            $.each(data.result.docs, function(document, link) {
-                $("#result").append(`<tr><th scope='row'>` + i + `</th><td><a href='${link}'>${document}</td><td></td><td></td><td></td></tr>`);
+            $.each(data.result.docs, function(document, info) {
+                $("#result").append(`<tr><th scope='row'>` + i + `</th><td><a href='${info.link}'>${document}</td><td>${info.relevance}</td><td></td><td></td></tr>`);
                 i++;
               });
         });

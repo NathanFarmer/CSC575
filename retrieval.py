@@ -9,8 +9,8 @@ def retrieve_documents(q):
     # Uses the index to retrieve relevant documents
     if q:
         topic = topics['QUERY'][topics['TOPICID']==200].iloc[0]
-        
-    return {'topic':topic, 'docs':{14747618:'data/rheumatolgy/14747618.html', 10662869:'data/rheumatolgy/10662869.html'}}
+
+    return {'topic':topic, 'docs':{14747618:{'link':'data/rheumatolgy/14747618.html','relevance':'Relevant'}, 10662869:{'link':'data/rheumatolgy/10662869.html','relevance':'Relevant'}}}
 
 def load_topics():
     # Loads the predefined topics file

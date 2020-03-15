@@ -14,18 +14,6 @@ import string
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
 
-class MLStripper(HTMLParser):
-    # Class to strip markup language from a given string
-    def __init__(self):
-        self.reset()
-        self.strict = False
-        self.convert_charrefs = True
-        self.fed = []
-    def handle_data(self, d):
-        self.fed.append(d)
-    def get_data(self):
-        return ''.join(self.fed)
-
 def check_unique_document_ids():
     # Set working dir to location of this file
     abs_path = os.path.abspath(__file__)
@@ -55,20 +43,19 @@ def check_unique_document_ids():
 
 def crawl_and_index(docs):
     ind = {}
-    # ONLY INDEXING 50 DOCUMENTS FOR TEST
-    for file_name in docs[:1]:
+    # For each file in the list
+    for file_name in docs:
         print('Indexing', file_name[1])
-        #print(file_name)
         porters_words = []
         with open(file_name[0] + '\\' + file_name[1]) as f:
             doc_id = int(file_name[1][:-5])
             for line in f:
+                # Remove HTML
                 no_html_tags = BeautifulSoup(line, 'lxml').text
                 no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
-
-                ps = PorterStemmer()
                 # Split on special characters and numbers
                 all_words = re.split(' |,|/|-|\n|\u0096|\u0097|\u00a0|\u00fc', no_html_tags)
+                ps = PorterStemmer()
                 for word in all_words:
                     # Remove numbers
                     word = re.sub(r'[0-9]+', '', word)
@@ -77,19 +64,16 @@ def crawl_and_index(docs):
                         porters_words.append(ps.stem(word))
 
             for pw in porters_words:
-                if len(pw) > 0:
-                    if pw not in ind:
-                            # Add the word to the dict if not there 
-                        ind[pw] = {doc_id:1}
-                    elif doc_id not in ind[pw]:
-                            # If the word is in the dict but the doc_id is not
-                        ind[pw] = {doc_id:1}
-                    else:
-                            # If the word is in the dict and so is the doc_id                        
-                        freq = ind[pw][doc_id] + 1
-                        ind[pw] = {doc_id:freq}
-
-                    #if pw == 'john': print(pw, ind[pw])
+                if pw not in ind:
+                    # Add the word to the dict if not there 
+                    ind[pw] = {doc_id:1}
+                elif doc_id not in ind[pw]:
+                    # If the word is in the dict but the doc_id is not
+                    ind[pw] = {doc_id:1}
+                else:
+                    # If the word is in the dict and so is the doc_id                        
+                    freq = ind[pw][doc_id] + 1
+                    ind[pw] = {doc_id:freq}
 
     return ind
 

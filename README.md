@@ -14,9 +14,9 @@ Once the documents are downloaded, we need to build the inverted index. The comp
 Once the index is in your "data" directory, you can launch the web server by running ir_project.py. Once the web server is running, open the browser of your choice and point to localhost:5000.
 
 ### File Descriptions:
-***download_documents.py:** Downloads/unzips the documents and relevance files.
-***index_documents.py:** Parses the downloaded documents and creates an inverted index.
-***ir_project.py:** Runs a Flask web server that can accept GET and POST commands from the UI, as well as run Python scripts.
-***templates/index.html:** A Bootstrap search page that accepts user input and returns relevant documents.
-***static/js/search_and_display.js:** The JavaScript file that sends AJAX requests to the web server and modifies the search page DOM.
-***retrieval.py:** The code for matching queries to topics and topics to documents. Precison and recall are also calculated here.
+* **download_documents.py:** Downloads/unzips the documents and relevance files.
+* **index_documents.py:** Parses the downloaded documents and creates an inverted index.
+* **ir_project.py:** Runs a Flask web server that can accept GET and POST commands from the UI, as well as run Python scripts.
+* **templates/index.html:** A Bootstrap search page that accepts user input and returns relevant documents.
+* **static/js/search_and_display.js:** The JavaScript file that sends AJAX requests to the web server and modifies the search page DOM.
+* **retrieval.py:** The code for matching queries to topics and topics to documents. Precison and recall are also calculated here.

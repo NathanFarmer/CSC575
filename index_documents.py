@@ -40,8 +40,16 @@ def check_unique_document_ids():
 def crawl_and_index(docs):
     ind = {}
     # For each file in the list
+    i=0
+    doc_count = len(docs)
+    one_percent = int(doc_count * 0.01)
+    percent_complete = 0.0
+    print('Indexing Documents...')
     for file_name in docs:
-        print('Indexing', file_name[1])
+        i+=1
+        if i % one_percent == 0:
+            percent_complete += 0.01
+            print('{0:.0%}'.format(percent_complete), 'complete')
         porters_words = []
         with open(file_name[0] + '\\' + file_name[1]) as f:
             doc_id = int(file_name[1][:-5])

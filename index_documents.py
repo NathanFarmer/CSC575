@@ -73,20 +73,20 @@ def crawl_and_index(docs):
                     # Stem the words using Porters Stemming
                     porters_words.append(ps.stem(word))
 
-                for pw in porters_words:
-                    if len(pw) > 0:
-                        if pw not in ind:
+            for pw in porters_words:
+                if len(pw) > 0:
+                    if pw not in ind:
                             # Add the word to the dict if not there 
-                            ind[pw] = {doc_id:1}
-                        elif doc_id not in ind[pw]:
+                        ind[pw] = {doc_id:1}
+                    elif doc_id not in ind[pw]:
                             # If the word is in the dict but the doc_id is not
-                            ind[pw] = {doc_id:1}
-                        else:
+                        ind[pw] = {doc_id:1}
+                    else:
                             # If the word is in the dict and so is the doc_id                        
-                            freq = ind[pw][doc_id] + 1
-                            ind[pw] = {doc_id:freq}
+                        freq = ind[pw][doc_id] + 1
+                        ind[pw] = {doc_id:freq}
 
-                    if pw == 'john': print(pw, ind[pw])
+                    #if pw == 'john': print(pw, ind[pw])
 
     return ind
 

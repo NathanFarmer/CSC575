@@ -8,7 +8,9 @@ import pandas as pd
 def retrieve_documents(q):
     # Uses the index to retrieve relevant documents
     if q:
-        return {10901322:'data/ajepidem/10901322.html', 10901323:'data/ajepidem/10901323.html'}
+        topic = topics['QUERY'][topics['TOPICID']==200].iloc[0]
+        
+    return {'topic':topic, 'docs':{14747618:'data/rheumatolgy/14747618.html', 10662869:'data/rheumatolgy/10662869.html'}}
 
 def load_topics():
     # Loads the predefined topics file
@@ -17,7 +19,6 @@ def load_topics():
     topics.columns = topics_columns
     # Get rid of opening <
     topics['TOPICID'] = pd.to_numeric(topics['TOPICID'].str[1:])
-    print(topics.head())
 
     return topics
 
@@ -27,7 +28,6 @@ def load_gold_standard():
     gs_columns = ['TOPICID', 'PUBMEDID', 'OFFSET', 'LENGTH', 'MESH_ASPECTS']
     gold_standard.columns = gs_columns
     gold_standard['MESH_ASPECTS'] = gold_standard['MESH_ASPECTS'].str.split('|')
-    print(gold_standard.head())
 
     return gold_standard
 

@@ -11,6 +11,8 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from bs4 import BeautifulSoup
 import string
+from nltk.corpus import stopwords
+stop_words = set(stopwords.words('english'))
 
 class MLStripper(HTMLParser):
     # Class to strip markup language from a given string
@@ -70,8 +72,9 @@ def crawl_and_index(docs):
                 for word in all_words:
                     # Remove numbers
                     word = re.sub(r'[0-9]+', '', word)
-                    # Stem the words using Porters Stemming
-                    porters_words.append(ps.stem(word))
+                    if word not in stop_words:
+                        # Stem the words using Porters Stemming
+                        porters_words.append(ps.stem(word))
 
             for pw in porters_words:
                 if len(pw) > 0:

@@ -1,4 +1,4 @@
-# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+# J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 #
 # Step 3: Run this file to launch the web server and point your browser to localhost:5000.
 
@@ -18,7 +18,7 @@ def index():
 def get_query():
     try:
         query = request.args.get('query')
-        # Retrieve documents using function
+        # Retrieve documents using imported function
         rel_docs = retrieve_documents(query)
         return jsonify(result=rel_docs)
     except Exception as e:

@@ -1,4 +1,4 @@
-# J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+# J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 #
 # Step 2: Run this file to create the document index on your local machine.
 

@@ -1,6 +1,6 @@
 # CSC 575 Final Project
 
-### J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
+### J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 
 An internet connection is requried to download the data and use the UI.
 

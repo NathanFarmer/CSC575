@@ -3,6 +3,7 @@
 # This script performs the information retrieval tasks.
 
 import json
+import pandas as pd
 
 def retrieve_documents(q):
     # Uses the index to retrieve relevant documents
@@ -11,6 +12,20 @@ def retrieve_documents(q):
 
 def load_relevance():
     # Loads the predefined relevance information
+
+    # Gold standard file
+    gold_standard = pd.read_csv('data/trecgen2007.gold.standard.tsv.txt', sep="\t", header=None, encoding='ISO-8859-1')
+    gs_columns = ['TOPICID', 'PUBMEDID', 'OFFSET', 'LENGTH', 'MESH_ASPECTS']
+    gold_standard.columns = gs_columns
+    print(gold_standard.head())
+
+    # Topics file
+    topics = gold_standard = pd.read_csv('data/2007topics.txt', sep=">", header=None, encoding='ISO-8859-1')
+    topics_columns = ['TOPICID', 'QUERY']
+    topics.columns = topics_columns
+    # Get rid of opening <
+    topics['TOPICID'] = pd.to_numeric(topics['TOPICID'].str[1:])
+    print(topics.head())
 
     return None
 

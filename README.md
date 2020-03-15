@@ -11,7 +11,7 @@ The full dataset was too large to upload here. It should be downloaded by runnin
 Once the documents are downloaded, we need to build the inverted index. The completed index is available as a file in the repository due to the length of time it takes to index the entire corpus. The fastest way to get the search tool up and running is to use this index we provided. Creating the index was done by running index_documents.py. The script crawls through each of the previously extracted documents and dumps the indexed results to a file called index.json in the data folder.
 
 ### Step 3: Run ir_project.py
-Once the index is built, you can launch the web server by running ir_project.py. Once the web server is running, open the browser of your choice and point to localhost:5000.
+Once the index is in your "data" directory, you can launch the web server by running ir_project.py. Once the web server is running, open the browser of your choice and point to localhost:5000.
 
 ### File Descriptions:
 **download_documents.py:** Downloads/unzips the documents and relevance files.

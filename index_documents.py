@@ -72,7 +72,7 @@ def crawl_and_index(docs):
                 for word in all_words:
                     # Remove numbers
                     word = re.sub(r'[0-9]+', '', word)
-                    if word not in stop_words:
+                    if word not in stop_words and len(word) > 1:
                         # Stem the words using Porters Stemming
                         porters_words.append(ps.stem(word))
 

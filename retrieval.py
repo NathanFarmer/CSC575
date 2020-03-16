@@ -52,6 +52,9 @@ def retrieve_documents(q):
         else:
             ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
 
+    # Calculate precision and recall
+    
+
     return {'topic':topic, 'docs':ranked_query_index}
 
 def load_links():

@@ -6,9 +6,11 @@ import json
 import pandas as pd
 
 def retrieve_documents(q):
-    # Uses the index to retrieve relevant documents
-    if q:
-        topic = topics['QUERY'][topics['TOPICID']==200].iloc[0]
+    # Uses the index to retrieve relevant
+    if q in topics['QUERY'].values:
+        topic = q
+    else:
+        topic = 'The query was not relevant to any of the documents.'
 
     return {'topic':topic, 'docs':{1:{'document_id':14747618,'link':'data/rheumatolgy/14747618.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
                                    2:{'document_id':10662869,'link':'data/rheumatolgy/10662869.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 

@@ -64,7 +64,8 @@ def crawl_and_index(docs):
                 for word in all_words:
                     # Remove numbers
                     word = re.sub(r'[0-9]+', '', word)
-                    word = word.encode('ascii', 'ignore').decode('unicode_escape')
+                    #word = word.encode('ascii', 'ignore').decode('unicode_escape')
+                    word = ''.join([i if ord(i) < 128 else ' ' for i in word])
                     if word not in stop_words and len(word) > 1:
                         # Stem the words using Porters Stemming
                         porters_words.append(ps.stem(word))

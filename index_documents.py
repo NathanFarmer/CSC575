@@ -37,19 +37,39 @@ def check_unique_document_ids():
 
     return file_list
 
+def write_json(data, filename='data/index.json'):
+    # Write a new index including batch
+    with open(filename,'w') as f: 
+        json.dump(data, f)
+
 def crawl_and_index(docs):
+    # Set working dir to location of this file again
+    abs_path = os.path.abspath(__file__)
+    dir_name = os.path.dirname(abs_path)
+    os.chdir(dir_name)
+
     ind = {}
-    # For each file in the list
     i=0
     doc_count = len(docs)
-    one_percent = int(doc_count * 0.01)
+    one_percent = int(doc_count * 0.001)
     percent_complete = 0.0
     print('Indexing Documents...')
+    # For each file in the list
     for file_name in docs:
         i+=1
         if i % one_percent == 0:
             percent_complete += 0.01
             print('{0:.0%}'.format(percent_complete), 'complete')
+            # Append this batch to the json file
+            with open('data/index.json') as json_file: 
+                data = json.load(json_file)
+                temp = data
+                # Appending batch to index
+                temp.update(ind)
+            write_json(data)
+            # Start over with an empty batch
+            ind = {}
+
         porters_words = []
         with open(file_name[0] + '\\' + file_name[1], "r", encoding="utf-8", errors='ignore') as f:
             doc_id = int(file_name[1][:-5])
@@ -82,20 +102,10 @@ def crawl_and_index(docs):
                     freq = ind[pw][doc_id] + 1
                     ind[pw] = {doc_id:freq}
 
-    return ind
 
 if __name__ == '__main__':
     # Make sure all documents names are unique to be used for document_ids
     document_list = check_unique_document_ids()
 
     # Crawl the documents and add each term to the inverted index
-    index = crawl_and_index(document_list)
-
-    # Set working dir to location of this file again
-    abs_path = os.path.abspath(__file__)
-    dir_name = os.path.dirname(abs_path)
-    os.chdir(dir_name)
-
-    # Dump the index to a json file
-    with open('data/index.json', 'w') as f:
-        json.dump(index, f)
+    crawl_and_index(document_list)

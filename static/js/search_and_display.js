@@ -1,7 +1,21 @@
 // J. Nathan Farmer, Rohit Kothari, Sachinder Katoch
 //
-// Takes search query as input and feeds it to ir_project.py. Retrieived documents are then
-// returned to this file for display in the browser.
+// This file takes data from the browser and passes it back and forth to our .py scripts.
+// It also fills in the autocomplete form.
+
+// Autocomplete
+$(function() {
+    var availableTags = [
+        "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
+        "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
+        "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
+        "PHP", "Python", "Ruby", "Scala", "Scheme"
+    ];
+
+    $(".autocomplete").autocomplete({
+        source: availableTags
+    });
+});
 
 // AJAX sends query and waits for response
 $(function() {

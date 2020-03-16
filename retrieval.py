@@ -11,22 +11,32 @@ stop_words = set(stopwords.words('english'))
 def retrieve_documents(q):
     # Identifies a topic to use to query
     if q in topics['QUERY'].values:
+        # If a topic was chosen from autocomplete use that
         topic_id = topics['TOPICID'][topics['QUERY'] == q].values[0]
         topic = q
     else:
-        #topic = 'The query was not relevant to any of the documents.'
-        topic_id = topics['TOPICID'][topics['QUERY'] == q].values[0]
-        topic = q
+        # If something else was entered try to match it to one of the topics
+        topic_id = 200
+        best_topic = 'What serum [PROTEINS] change expression in association with high disease activity in lupus?'
+        similarity_score = 0.3
+        if similarity_score > 0.49:
+            topic = best_topic
+        else:
+            topic = 'The custom query was not relevant to any of the topic queries.'
+            return {'topic':topic, 'docs':''}
 
+        
     # Searches for that topic in the documents using the index
     topic_clean = re.sub(r'[^\w\s]','', topic)
     topic_words = topic_clean.split()
     ps = PorterStemmer()
     porters_words = []
     for word in topic_words:
-        if word not in stop_words and len(word) > 1:
+        if (word not in stop_words) and (word != 'what') and (len(word) > 1):
             # Stem the words using Porters Stemming
             porters_words.append(ps.stem(word))
+
+    print(porters_words)
 
     # Find query tokens in index
     query_list = [index[x] for x in porters_words]

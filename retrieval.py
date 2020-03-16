@@ -53,7 +53,7 @@ def retrieve_documents(q):
     ranked_query_index = {}
     for key, value in sorted_query_index.items():
         rank += 1
-        if key in topic_docs['PUBMEDID'].values:
+        if topic_docs['PUBMEDID'].isin([key]).any():
             ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Relevant', 'precision':0.5, 'recall':0.5}
         else:
             ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
@@ -161,9 +161,10 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     topics = load_topics()
     gold_standard = load_gold_standard()
     links = load_links()
+    # Frequency matrix for terms and each topic to compare to query
     topic_term_freq = build_topic_term_freq()
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for
     # debugging with print statements
-    print(index['john'])
+    print()

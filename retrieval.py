@@ -52,8 +52,30 @@ def retrieve_documents(q):
         else:
             ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
 
-    # Calculate precision and recall
+    # Calculate precision and recall for each ranked document
+    rel_doc_count = len(topic_docs)
+    precision_recall = []
+    i = 0
+    relevant = 0
+    for rank, info in ranked_query_index.items():
+        i += 1 
+        if info['relevance'] == 'Relevant':
+            relevant += 1
+        precision = relevant / i
+        recall = relevant / rel_doc_count
+
+        precision_recall.append([rank, precision, recall])
     
+    # Add formatted values to ranked_query_index
+    for doc in precision_recall:
+        if doc[1] == 0:
+            ranked_query_index[doc[0]]['precision'] = '0.00'
+        else:
+            ranked_query_index[doc[0]]['precision'] = str(round(doc[1],2))
+        if doc[2] == 0:
+            ranked_query_index[doc[0]]['recall'] = '0.00'
+        else:
+            ranked_query_index[doc[0]]['recall'] = str(round(doc[2],2))
 
     return {'topic':topic, 'docs':ranked_query_index}
 

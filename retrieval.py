@@ -2,15 +2,31 @@
 #
 # This script performs the information retrieval tasks.
 
-import json
+import json, re
 import pandas as pd
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
+stop_words = set(stopwords.words('english'))
 
 def retrieve_documents(q):
-    # Uses the index to retrieve relevant
+    # Identifies a topic to use to query
     if q in topics['QUERY'].values:
         topic = q
     else:
         topic = 'The query was not relevant to any of the documents.'
+
+    # Searches for that topic in the documents using the index
+    topic_clean = re.sub(r'[^\w\s]','', topic)
+    topic_words = topic_clean.split()
+    ps = PorterStemmer()
+    porters_words = []
+    for word in topic_words:
+        if word not in stop_words and len(word) > 1:
+            # Stem the words using Porters Stemming
+            porters_words.append(ps.stem(word))
+
+    print(q)
+    print(porters_words)
 
     return {'topic':topic, 'docs':{1:{'document_id':14747618,'link':'data/rheumatolgy/14747618.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
                                    2:{'document_id':10662869,'link':'data/rheumatolgy/10662869.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 

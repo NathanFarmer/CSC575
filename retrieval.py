@@ -36,8 +36,6 @@ def retrieve_documents(q):
             # Stem the words using Porters Stemming
             porters_words.append(ps.stem(word))
 
-    print(porters_words)
-
     # Find query tokens in index
     query_list = [index[x] for x in porters_words]
     query_index = {}

@@ -55,7 +55,7 @@ def crawl_and_index(docs):
             doc_id = int(file_name[1][:-5])
             for line in f:
                 # Remove HTML
-                #no_html_tags = BeautifulSoup(line, 'lxml').text
+                #no_html_tags = BeautifulSoup(line, 'lxml').text 
                 no_html_tags = ''.join(BeautifulSoup(line, "html.parser").stripped_strings)
                 no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
                 # Split on special characters and numbers

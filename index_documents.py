@@ -109,7 +109,7 @@ if __name__ == '__main__':
     document_list = check_unique_document_ids()
 
     # Create empty index file to append to
-    write_json(None)
+    write_json({})
 
     # Crawl the documents and add each term to the inverted index
     crawl_and_index(document_list)

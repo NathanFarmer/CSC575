@@ -7,6 +7,7 @@ import pandas as pd
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
+import matplotlib.pyplot as plt
 
 def retrieve_documents(q):
     # Identifies a topic to use to query
@@ -139,6 +140,11 @@ def load_gold_standard():
     gold_standard.columns = gs_columns
     gold_standard['MESH_ASPECTS'] = gold_standard['MESH_ASPECTS'].str.split('|')
 
+    # Analyze number of relevant documents per topic to determine document limit
+    plot_data = gold_standard.groupby(['TOPICID'])['TOPICID'].count()
+    plot_data.plot(kind='bar', x='TOPICID', y='count')
+    #plt.show()
+
     return gold_standard
 
 def load_index():
@@ -156,7 +162,6 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     gold_standard = load_gold_standard()
     links = load_links()
     topic_term_freq = build_topic_term_freq()
-    print(topic_term_freq.shape)
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for

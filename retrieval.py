@@ -2,7 +2,7 @@
 #
 # This script performs the information retrieval tasks.
 
-import json, re
+import json, re, os
 import pandas as pd
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
@@ -40,8 +40,7 @@ def retrieve_documents(q):
                 query_index[key] = value
 
     sorted_query_index = {k: v for k, v in sorted(query_index.items(), key=lambda item: item[1], reverse=True)}
-    print(sorted_query_index)
-
+    
     # Find out if the document was listed as relevant for this topic
     topic_docs = gold_standard[gold_standard['TOPICID'] == topic_id]
     rank = 0
@@ -49,11 +48,30 @@ def retrieve_documents(q):
     for key, value in sorted_query_index.items():
         rank += 1
         if key in topic_docs['PUBMEDID'].values:
-            ranked_query_index[rank] = {'document_id':int(key), 'link':'link', 'relevance':'Relevant', 'precision':0.5, 'recall':0.5}
+            ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Relevant', 'precision':0.5, 'recall':0.5}
         else:
-            ranked_query_index[rank] = {'document_id':int(key), 'link':'link', 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
+            ranked_query_index[rank] = {'document_id':int(key), 'link':links[int(key)], 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
 
     return {'topic':topic, 'docs':ranked_query_index}
+
+def load_links():
+    # Loads the link for each document_id
+    # Set working dir to location of this file
+    abs_path = os.path.abspath(__file__)
+    dir_name = os.path.dirname(abs_path)
+    os.chdir(dir_name)
+    # Search for all .html file names
+    file_list = {}
+    dir_name = dir_name + '\\data\\'
+    for root, _, files in os.walk(dir_name):
+        for f in files:
+            if f.endswith('.html'):
+                folder = root.split('\\data\\')
+                link = '\\data\\' + folder[1] + '\\' + f
+                doc_id = int(f[:-5])
+                file_list[doc_id] = link
+
+    return file_list
 
 def load_topics():
     # Loads the predefined topics file
@@ -87,7 +105,7 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     index = load_index()
     topics = load_topics()
     gold_standard = load_gold_standard()
-    
+    links = load_links()
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for

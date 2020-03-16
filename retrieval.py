@@ -60,6 +60,7 @@ def retrieve_documents(q):
 
     # Calculate precision and recall for each ranked document
     rel_doc_count = len(topic_docs)
+    print(rel_doc_count)
     precision_recall = []
     i = 0
     relevant = 0
@@ -75,15 +76,17 @@ def retrieve_documents(q):
     # Add formatted values to ranked_query_index
     for doc in precision_recall:
         if doc[1] == 0:
-            ranked_query_index[doc[0]]['precision'] = '0.00'
+            ranked_query_index[doc[0]]['precision'] = '0.0'
         else:
             ranked_query_index[doc[0]]['precision'] = str(round(doc[1],2))
         if doc[2] == 0:
-            ranked_query_index[doc[0]]['recall'] = '0.00'
+            ranked_query_index[doc[0]]['recall'] = '0.0'
         else:
             ranked_query_index[doc[0]]['recall'] = str(round(doc[2],2))
 
-    return {'topic':topic, 'docs':ranked_query_index}
+    # Only return top 50 documents
+    n_items = {k: ranked_query_index[k] for k in list(ranked_query_index)[:50]}
+    return {'topic':topic, 'docs':n_items}
 
 def build_topic_term_freq():
     # Builds a topic-term frequency matrix to compare to queries
@@ -100,7 +103,18 @@ def build_topic_term_freq():
     # Remove duplicates from porters_words
     unique_words = list(set(porters_words))
 
-    ttf = pd.DataFrame(columns=unique_words, index=topics['TOPICID'])
+    ttf = pd.DataFrame(0, columns=unique_words, index=topics['TOPICID'])
+    for topic in topics['QUERY']:
+        topic_clean = re.sub(r'[^\w\s]','', topic)
+        topic_words = topic_clean.split()
+        ps = PorterStemmer()
+        porters_words = []
+        for word in topic_words:
+            if (word not in stop_words) and (word != 'what') and (len(word) > 1):
+                # Stem the words using Porters Stemming
+                porters_words.append(ps.stem(word))
+        for word in porters_words:
+            ttf.loc[topics['TOPICID'][topics['QUERY']==topic].values[0], word] += 1
 
     return ttf
 

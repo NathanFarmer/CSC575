@@ -103,6 +103,7 @@ def build_topic_term_freq():
     # Remove duplicates from porters_words
     unique_words = list(set(porters_words))
 
+    # For each topic, tokenize and fill in the empty ttf matrix
     ttf = pd.DataFrame(0, columns=unique_words, index=topics['TOPICID'])
     for topic in topics['QUERY']:
         topic_clean = re.sub(r'[^\w\s]','', topic)

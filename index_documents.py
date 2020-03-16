@@ -1,6 +1,7 @@
 # J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 #
 # Step 2: Run this file to create the document index on your local machine.
+
 from datetime import datetime
 import os, json, re
 from nltk.stem import PorterStemmer
@@ -96,16 +97,19 @@ def crawl_and_index(docs):
                     ind[pw] = {doc_id:1}
                 elif doc_id not in ind[pw]:
                     # If the word is in the dict but the doc_id is not
-                    ind[pw] = {doc_id:1}
+                    ind[pw].update({doc_id:1})
                 else:
                     # If the word is in the dict and so is the doc_id                        
                     freq = ind[pw][doc_id] + 1
-                    ind[pw] = {doc_id:freq}
+                    ind[pw].update({doc_id:freq})
 
 
 if __name__ == '__main__':
     # Make sure all documents names are unique to be used for document_ids
     document_list = check_unique_document_ids()
+
+    # Create empty index file to append to
+    write_json(None)
 
     # Crawl the documents and add each term to the inverted index
     crawl_and_index(document_list)

@@ -51,7 +51,7 @@ def crawl_and_index(docs):
             percent_complete += 0.01
             print('{0:.0%}'.format(percent_complete), 'complete')
         porters_words = []
-        with open(file_name[0] + '\\' + file_name[1]) as f:
+        with open(file_name[0] + '\\' + file_name[1], "r", encoding="utf-8", errors='ignore') as f:
             doc_id = int(file_name[1][:-5])
             for line in f:
                 # Remove HTML

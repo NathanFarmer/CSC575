@@ -51,7 +51,7 @@ def crawl_and_index(docs):
     ind = {}
     i=0
     doc_count = len(docs)
-    one_percent = int(doc_count * 0.001)
+    one_percent = int(doc_count * 0.01)
     percent_complete = 0.0
     print('Indexing Documents...')
     # For each file in the list

@@ -11,9 +11,12 @@ stop_words = set(stopwords.words('english'))
 def retrieve_documents(q):
     # Identifies a topic to use to query
     if q in topics['QUERY'].values:
+        topic_id = topics['TOPICID'][topics['QUERY'] == q].values[0]
         topic = q
     else:
-        topic = 'The query was not relevant to any of the documents.'
+        #topic = 'The query was not relevant to any of the documents.'
+        topic_id = topics['TOPICID'][topics['QUERY'] == q].values[0]
+        topic = q
 
     # Searches for that topic in the documents using the index
     topic_clean = re.sub(r'[^\w\s]','', topic)
@@ -25,12 +28,32 @@ def retrieve_documents(q):
             # Stem the words using Porters Stemming
             porters_words.append(ps.stem(word))
 
-    print(q)
-    print(porters_words)
+    # Find query tokens in index
+    query_list = [index[x] for x in porters_words]
+    query_index = {}
+    # Sum token counts for a single document
+    for d in query_list:
+        for key, value in d.items():
+            if key in query_index:
+                query_index[key] += value
+            else:
+                query_index[key] = value
 
-    return {'topic':topic, 'docs':{1:{'document_id':14747618,'link':'data/rheumatolgy/14747618.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
-                                   2:{'document_id':10662869,'link':'data/rheumatolgy/10662869.html','relevance':'Relevant', 'precision':0.5, 'recall':0.5}, 
-                                   3:{'document_id':10901322,'link':'data/ajepidem/10901322.html','relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}}}
+    sorted_query_index = {k: v for k, v in sorted(query_index.items(), key=lambda item: item[1], reverse=True)}
+    print(sorted_query_index)
+
+    # Find out if the document was listed as relevant for this topic
+    topic_docs = gold_standard[gold_standard['TOPICID'] == topic_id]
+    rank = 0
+    ranked_query_index = {}
+    for key, value in sorted_query_index.items():
+        rank += 1
+        if key in topic_docs['PUBMEDID'].values:
+            ranked_query_index[rank] = {'document_id':int(key), 'link':'link', 'relevance':'Relevant', 'precision':0.5, 'recall':0.5}
+        else:
+            ranked_query_index[rank] = {'document_id':int(key), 'link':'link', 'relevance':'Not Relevant', 'precision':0.5, 'recall':0.5}
+
+    return {'topic':topic, 'docs':ranked_query_index}
 
 def load_topics():
     # Loads the predefined topics file
@@ -64,6 +87,7 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     index = load_index()
     topics = load_topics()
     gold_standard = load_gold_standard()
+    
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for

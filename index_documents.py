@@ -1,7 +1,7 @@
 # J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 #
 # Step 2: Run this file to create the document index on your local machine.
-
+from datetime import datetime
 import os, json, re
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -55,7 +55,8 @@ def crawl_and_index(docs):
             doc_id = int(file_name[1][:-5])
             for line in f:
                 # Remove HTML
-                no_html_tags = BeautifulSoup(line, 'lxml').text
+                #no_html_tags = BeautifulSoup(line, 'lxml').text
+                no_html_tags = ''.join(BeautifulSoup(line, "html.parser").stripped_strings)
                 no_html_tags = no_html_tags.translate(str.maketrans('', '', string.punctuation))
                 # Split on special characters and numbers
                 all_words = re.split(' |,|/|-|\n|\u0096|\u0097|\u00a0|\u00fc', no_html_tags)
@@ -63,6 +64,7 @@ def crawl_and_index(docs):
                 for word in all_words:
                     # Remove numbers
                     word = re.sub(r'[0-9]+', '', word)
+                    word = word.encode('ascii', 'ignore').decode('unicode_escape')
                     if word not in stop_words and len(word) > 1:
                         # Stem the words using Porters Stemming
                         porters_words.append(ps.stem(word))

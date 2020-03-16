@@ -19,11 +19,8 @@ def retrieve_documents(q):
         topic_id = 200
         best_topic = 'What serum [PROTEINS] change expression in association with high disease activity in lupus?'
         similarity_score = 0.3
-        if similarity_score > 0.49:
-            topic = best_topic
-        else:
-            topic = 'The custom query was not relevant to any of the topic queries.'
-            return {'topic':topic, 'docs':''}
+        if similarity_score > 0.49: topic = best_topic
+        else: return {'topic':'The custom query was not relevant to any of the topic queries.', 'docs':''}
 
         
     # Searches for that topic in the documents using the index
@@ -87,6 +84,25 @@ def retrieve_documents(q):
 
     return {'topic':topic, 'docs':ranked_query_index}
 
+def build_topic_term_freq():
+    # Builds a topic-term frequency matrix to compare to queries
+    porters_words = []
+    for topic in topics['QUERY']:
+        topic_clean = re.sub(r'[^\w\s]','', topic)
+        topic_words = topic_clean.split()
+        ps = PorterStemmer()
+        for word in topic_words:
+            if (word not in stop_words) and (word != 'what') and (len(word) > 1):
+                # Stem the words using Porters Stemming
+                porters_words.append(ps.stem(word))
+
+    # Remove duplicates from porters_words
+    unique_words = list(set(porters_words))
+
+    ttf = pd.DataFrame(columns=unique_words, index=topics['TOPICID'])
+
+    return ttf
+
 def load_links():
     # Loads the link for each document_id
     # Set working dir to location of this file
@@ -139,6 +155,8 @@ if __name__ == 'retrieval' or __name__ == '__main__':
     topics = load_topics()
     gold_standard = load_gold_standard()
     links = load_links()
+    topic_term_freq = build_topic_term_freq()
+    print(topic_term_freq.shape)
 
 if __name__ == '__main__':
     # If we are running this file as a standalone we can use this block for

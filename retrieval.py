@@ -186,7 +186,7 @@ def load_gold_standard():
 
 def load_index():
     # This function loads the index from index.json
-    with open('data/zipf_index.json', 'r') as read_file:
+    with open('data/index.json', 'r') as read_file:
         idx = json.load(read_file)
 
     return idx

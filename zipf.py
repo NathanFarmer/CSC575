@@ -41,5 +41,5 @@ if __name__ == '__main__':
         if i % 1000 == 0:
             print(i, 'of', total_to_remove, 'complete')
 
-    with open('data/zipf_index.json','w') as write_file:
+    with open('data/index.json','w') as write_file:
         json.dump(idx, write_file)

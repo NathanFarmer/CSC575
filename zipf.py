@@ -31,15 +31,15 @@ if __name__ == '__main__':
     #fig.tight_layout()
     #plt.show()
 
-    remove_words = sorted_tokens[(sorted_tokens['COUNT'] == 1) | (sorted_tokens['COUNT'] > 1400)]['WORD'].values
+    remove_words = sorted_tokens[sorted_tokens['COUNT'] > 500]['WORD'].values
     total_to_remove = len(remove_words)
     i=0
     for key in list(idx):
         if key in remove_words:
             del idx[key]
-        i+=1
-        if i % 1000 == 0:
-            print(i, 'of', total_to_remove, 'complete')
+            i+=1
+            if (i % 100 == 0) and (i != 0):
+                print(i, 'of', total_to_remove, 'complete')
 
-    with open('data/index.json','w') as write_file:
+    with open('data/zipf_index.json','w') as write_file:
         json.dump(idx, write_file)

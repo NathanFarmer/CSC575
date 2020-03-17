@@ -1,6 +1,6 @@
 # J. Nathan Farmer, Sachinder Katoch, Rohit Kothari
 #
-# Step 2: Run this file to create the document index on your local machine.
+# Step 2a: Run this file to create the document index on your local machine.
 
 from datetime import datetime
 import os, json, re

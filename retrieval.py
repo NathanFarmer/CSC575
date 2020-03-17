@@ -17,13 +17,31 @@ def retrieve_documents(q):
         topic = q
     else:
         # If something else was entered try to match it to one of the topics
-        topic_id = 200
-        best_topic = 'What serum [PROTEINS] change expression in association with high disease activity in lupus?'
-        similarity_score = 0.3
+
+        # Tokenize given query q
+        porters_words = []
+        query_clean = re.sub(r'[^\w\s]','', q)
+        query_words = query_clean.split()
+        ps = PorterStemmer()
+        for word in query_words:
+            if (word not in stop_words) and (word != 'what') and (len(word) > 1):
+                # Stem the words using Porters Stemming
+                porters_words.append(ps.stem(word))
+
+        # Frequancy vector to compare against topic_term_freq
+        query_freq = pd.DataFrame(0, index=topic_term_freq.columns.values.tolist(), columns=['QUERY'])
+        for word in porters_words:
+            if word in query_freq.index.values:
+                query_freq.loc[word] += 1
+
+        similarity_matrix = topic_term_freq.dot(query_freq)
+        similarity_score = similarity_matrix[similarity_matrix['QUERY']==similarity_matrix['QUERY'].max()].values[0][0]
+        topic_id = similarity_matrix[similarity_matrix['QUERY']==similarity_matrix['QUERY'].max()].index.values[0]
+        best_topic = topics['QUERY'][topics['TOPICID']==topic_id].values[0]
+        # If similarity score of best topic is high enough, choose that otherwise return none
         if similarity_score > 0.49: topic = best_topic
         else: return {'topic':'The custom query was not relevant to any of the topic queries.', 'docs':''}
 
-        
     # Searches for that topic in the documents using the index
     topic_clean = re.sub(r'[^\w\s]','', topic)
     topic_words = topic_clean.split()
@@ -86,7 +104,8 @@ def retrieve_documents(q):
 
     # Only return top 50 documents
     n_items = {k: ranked_query_index[k] for k in list(ranked_query_index)[:50]}
-    return {'topic':topic, 'docs':n_items}
+    results = {'topic':topic, 'docs':n_items}
+    return results
 
 def build_topic_term_freq():
     # Builds a topic-term frequency matrix to compare to queries

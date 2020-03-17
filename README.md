@@ -16,6 +16,7 @@ Once the index is in your "data" directory, you can launch the web server by run
 ### File Descriptions:
 * **download_documents.py:** Downloads/unzips the documents and relevance files.
 * **index_documents.py:** Parses the downloaded documents and creates an inverted index.
+* **zipf.py:** Removes the most ane least common terms from the index for performance.
 * **ir_project.py:** Runs a Flask web server that can accept GET and POST commands from the UI, as well as run Python scripts.
 * **templates/index.html:** A Bootstrap search page that accepts user input and returns relevant documents.
 * **static/js/search_and_display.js:** The JavaScript file that sends AJAX requests to the web server and modifies the search page DOM.

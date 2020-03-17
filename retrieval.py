@@ -17,14 +17,13 @@ def retrieve_documents(q):
         topic = q
     else:
         # If something else was entered try to match it to one of the topics
-
         # Tokenize given query q
         porters_words = []
         query_clean = re.sub(r'[^\w\s]','', q)
         query_words = query_clean.split()
         ps = PorterStemmer()
         for word in query_words:
-            if (word not in stop_words) and (word != 'what') and (len(word) > 1):
+            if (word not in stop_words) and (word != 'What') and (word != 'In') and (len(word) > 1):
                 # Stem the words using Porters Stemming
                 porters_words.append(ps.stem(word))
 
@@ -48,12 +47,17 @@ def retrieve_documents(q):
     ps = PorterStemmer()
     porters_words = []
     for word in topic_words:
-        if (word not in stop_words) and (word != 'what') and (len(word) > 1):
+        if (word not in stop_words) and (word != 'What') and (word != 'In') and (len(word) > 1):
             # Stem the words using Porters Stemming
             porters_words.append(ps.stem(word))
 
     # Find query tokens in index
-    query_list = [index[x] for x in porters_words]
+    query_list = []
+    for x in porters_words:
+        if idx[x]:
+            #print(idx[x])
+            query_list.append(idx[x])
+
     query_index = {}
     # Sum token counts for a single document
     for d in query_list:
@@ -64,7 +68,7 @@ def retrieve_documents(q):
                 query_index[key] = value
 
     sorted_query_index = {k: v for k, v in sorted(query_index.items(), key=lambda item: item[1], reverse=True)}
-    
+
     # Find out if the document was listed as relevant for this topic
     topic_docs = gold_standard[gold_standard['TOPICID'] == topic_id]
     rank = 0
@@ -78,7 +82,6 @@ def retrieve_documents(q):
 
     # Calculate precision and recall for each ranked document
     rel_doc_count = len(topic_docs)
-    print(rel_doc_count)
     precision_recall = []
     i = 0
     relevant = 0
@@ -183,15 +186,16 @@ def load_gold_standard():
 
 def load_index():
     # This function loads the index from index.json
-    with open('data/index.json', 'r') as read_file:
+    with open('data/zipf_index.json', 'r') as read_file:
         idx = json.load(read_file)
+
     return idx
 
 if __name__ == 'retrieval' or __name__ == '__main__':
     # Whether we are running this file as a standalone or importing it
     # from somewhere else we still want to go ahead and load the index
     # and relevance judgements
-    index = load_index()
+    idx = load_index()
     topics = load_topics()
     gold_standard = load_gold_standard()
     links = load_links()

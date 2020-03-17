@@ -31,7 +31,7 @@ if __name__ == '__main__':
     #fig.tight_layout()
     #plt.show()
 
-    remove_words = sorted_tokens[(sorted_tokens['COUNT'] == 1) | (sorted_tokens['COUNT'] > 1000)]['WORD'].values
+    remove_words = sorted_tokens[(sorted_tokens['COUNT'] == 1) | (sorted_tokens['COUNT'] > 1400)]['WORD'].values
     total_to_remove = len(remove_words)
     i=0
     for key in list(idx):

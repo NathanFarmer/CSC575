@@ -7,7 +7,7 @@ An internet connection is requried to download the data and use the UI.
 ### Step 1: Run download_documents.py (30-45 minutes)
 The full dataset was too large to upload here. It should be downloaded by running download_documents.py. On your local machine, the documents will be extracted to a folder called "data". The .gitignore file tells git to ingore anything in that folder so it does not sync to this repository.
 
-### Step 2: Download index.json from Google Drive and copy to "data" directory (5 minutes) OR run index_documents.py and zipf.py (12+ hours)
+### Step 2: Download index.json from Box and copy to "data" directory (5 minutes) OR run index_documents.py and zipf.py (12+ hours)
 Once the documents are downloaded, we need to build the inverted index. The completed index is available as a file in Box [(https://app.box.com/s/kci5t0n8qg1643ijsolxt2xnfq4ve0ji)](https://app.box.com/s/kci5t0n8qg1643ijsolxt2xnfq4ve0ji) due to the length of time it takes to index the entire corpus. The fastest way to get the search tool up and running is to use this index we provided. Creating the index was done by running index_documents.py. The script crawls through each of the previously extracted documents and dumps the indexed results to a file called index.json in the data folder. Next, running zipf.py removes the most and least common words from index.json.
 
 ### Step 3: Run ir_project.py
